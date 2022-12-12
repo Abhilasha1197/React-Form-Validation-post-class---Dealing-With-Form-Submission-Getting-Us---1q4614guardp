@@ -6,12 +6,25 @@ import React, { useState, useRef } from 'react';
  * 
  * 
  */
-
+ export const Form = () =>{
+  const emailRef = useRef();
+ }
 function App() {
 
  /**
   * code here
+  * 
   */
+ const [emailError, setEmailError] = useState('')
+  const validateEmail = (e) => {
+    var email = e.target.value
+  
+    if (validator.isEmail(email)) {
+      setEmailError('Valid Email :)')
+    } else {
+      setEmailError('Email is invalid')
+    }
+  }
 
   return(
     <div className="App">
