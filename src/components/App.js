@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 /**
  * @task :add validation to email, if email is not valid, if not valid email, dont allow to submit
@@ -6,24 +5,40 @@ import React, { useState, useRef } from 'react';
  * 
  * 
  */
- export const Form = () =>{
-  const emailRef = useRef();
- }
+
 function App() {
 
- /**
-  * code here
-  * 
-  */
- const [emailError, setEmailError] = useState('')
-  const validateEmail = (e) => {
-    var email = e.target.value
-  
-    if (validator.isEmail(email)) {
-      setEmailError('Valid Email :)')
-    } else {
-      setEmailError('Email is invalid')
+const fnameRef = useRef();
+  const emailRef = useRef();
+
+  const userInfo = {
+
+  };
+
+  const[fields, setFields] = useState(userInfo);
+  const[error, setError] = useState('');
+
+     const[data, setData] = useState(userInfo);
+
+      const getUserInformation = () =>{
+        userInfo[fnameRef.current.id] = fnameRef.current.value;
+        userInfo[emailRef.current.id] = emailRef.current.value;
+
+        setFields({...userInfo} ,emailRef.current.value, fnameRef.current.value)
+      }
+      
+     const submitForm = (event) => {
+     event.preventDefault();
+
+     if(!isValidEmail(emailRef.current.value)){
+       setError('Email is invalid')
+     }else {
+      setData({lname:emailRef.current.value, fname:fnameRef.current.value})
     }
+   }
+
+   function isValidEmail(email) {
+     return /\S+@\S+\.\S+/.test(email);
   }
 
   return(
@@ -33,15 +48,16 @@ function App() {
         <fieldset>
           <label>
             <p>First Name</p>
-            <input id='fname' name="name"  ref={fnameRef}/>
+            <input id='fname' name="name" ref={fnameRef} onChange={getUserInformation}/>
             <br></br>
             <p>Email</p>
-            <input id='lname' name="name"   ref={emailRef}/>
+            <input id='lname' name="name" ref={emailRef} onChange={getUserInformation}/>
             {error && <h2 style={{color: 'red'}}>{error}</h2>}
+            <h3>Email is invalid</h3>
           </label>
         </fieldset>
 
-        <button id='submit' type="submit">Submit</button>
+        <button id='submit' type="submit" onClick={submitForm}>Submit</button>
       </form>
       {
         data.fname != undefined && (
